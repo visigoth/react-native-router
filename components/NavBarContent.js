@@ -60,7 +60,12 @@ var NavBarContent = React.createClass({
     var leftCorner;
     var rightCorner;
     var titleComponent;
-    
+    var self = this;
+
+    var navigator = {
+      pop: self.goBack,
+      push: self.goForward
+    };
 
     /**
      * Set leftCorner
@@ -70,7 +75,7 @@ var NavBarContent = React.createClass({
 
     if (this.props.route.leftCorner) {
       var LeftCorner = this.props.route.leftCorner;
-      leftCornerContent = <LeftCorner toRoute={this.goForward} customAction={this.customAction} />;
+      leftCornerContent = <LeftCorner navigator={navigator} toRoute={this.goForward} customAction={this.customAction} />;
     } else if (this.props.route.index > 0) {
       leftCornerContent = <NavButton onPress={this.goBack} backButtonComponent={this.props.backButtonComponent} />;
     }
@@ -88,7 +93,7 @@ var NavBarContent = React.createClass({
 
     if (this.props.route.rightCorner || this.props.rightCorner) {
       var RightCorner = this.props.route.rightCorner || this.props.rightCorner;
-      rightCornerContent = <RightCorner toRoute={this.goForward} customAction={this.customAction} />;
+      rightCornerContent = <RightCorner navigator={navigator} toRoute={this.goForward} customAction={this.customAction} />;
     }
 
     rightCorner = (
@@ -104,7 +109,7 @@ var NavBarContent = React.createClass({
 
     if (this.props.route.titleComponent) {
       var TitleComponent = this.props.route.titleComponent;
-      titleContent = <TitleComponent />;
+      titleContent = <TitleComponent navigator={navigator} />;
     } else {
       titleContent = (
         <Text style={[styles.navbarText, this.props.titleStyle]}>
